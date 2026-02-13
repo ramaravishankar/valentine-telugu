@@ -84,7 +84,7 @@ function generateHeart() {
                 // Add image element for future image support
                 const img = document.createElement('img');
                 // Image source will be like: images/song1.jpg, images/song2.jpg, etc.
-                img.src = `images/song${songIndex + 1}.jpg`;
+                img.src = `images/song${songIndex + 1}.jpeg`;
                 img.alt = `Song ${songIndex + 1}`;
                 img.onerror = function() {
                     // Hide image if it doesn't exist
