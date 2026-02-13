@@ -90,6 +90,29 @@ body {
     justify-content: center;
 }
 
+/* Desktop hover: more noticeable */
+.tile:hover {
+    transform: scale(1.35) translateY(-6px);
+    background: linear-gradient(135deg, #7a9a96, #658581);
+    box-shadow: 0 14px 45px rgba(85, 117, 113, 0.55);
+    z-index: 10; /* keep the zoomed tile above neighbors */
+}
+
+/* Mobile/Touch: tapping should zoom too */
+.tile:active {
+    transform: scale(1.5);
+    box-shadow: 0 16px 55px rgba(85, 117, 113, 0.6);
+    z-index: 10;
+}
+
+/* Keyboard accessibility */
+.tile:focus-visible {
+    outline: 3px solid rgba(52, 168, 83, 0.65);
+    outline-offset: 4px;
+    transform: scale(1.35);
+    z-index: 10;
+}
+
 .tile img {
     width: 100%;
     height: 100%;
@@ -195,6 +218,37 @@ body {
     .hint {
         font-size: 1rem;
         margin: 0.25rem 0 1rem;
+    }
+    .title {
+        font-size: 2.2rem;
+    }
+    
+    .tile {
+        width: var(--tile-size-mobile);
+        height: var(--tile-size-mobile);
+    }
+
+    /* Stronger zoom on mobile */
+    .tile:hover {
+        transform: scale(1.6);
+        z-index: 10;
+    }
+    .tile:active {
+        transform: scale(1.75);
+        z-index: 10;
+    }
+    
+    .heart {
+        gap: 5px;
+    }
+    
+    .btn {
+        padding: 14px 35px;
+        font-size: 1.3rem;
+    }
+    
+    .message {
+        font-size: 1.5rem;
     }
 }
 
