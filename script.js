@@ -222,12 +222,14 @@ document.getElementById('yesBtn').addEventListener('click', function() {
         messageDiv.style.animation = 'fadeIn 0.5s ease';
     }, 10);
     
-    // Add celebration effect to all tiles
+    // Add celebration effect to all tiles and show all images
     const tiles = document.querySelectorAll('.tile:not(.invisible)');
     tiles.forEach((tile, index) => {
         setTimeout(() => {
             tile.style.background = 'linear-gradient(135deg, #34a853, #0f9d58)';
             tile.style.animation = 'pulse 1s ease-in-out';
+            // Mark all tiles as opened to show their images
+            tile.classList.add('opened');
         }, index * 50);
     });
 });
