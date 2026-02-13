@@ -29,11 +29,11 @@ body {
 
 .title {
     font-family: 'Playfair Display', serif;
-    color: #1a73e8;
+    color: #557571;
     font-size: 3.5rem;
     font-weight: 700;
     margin-bottom: 3rem;
-    text-shadow: 2px 2px 8px rgba(26, 115, 232, 0.2);
+    text-shadow: 2px 2px 8px rgba(85, 117, 113, 0.2);
     animation: titleFloat 3s ease-in-out infinite;
     letter-spacing: 1px;
 }
@@ -78,11 +78,11 @@ body {
 .tile {
     width: var(--tile-size-default);
     height: var(--tile-size-default);
-    background: linear-gradient(135deg, #4285f4, #1a73e8);
+    background: linear-gradient(135deg, #6a8a86, #557571);
     border-radius: 12px;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(66, 133, 244, 0.3);
+    box-shadow: 0 4px 15px rgba(85, 117, 113, 0.3);
     position: relative;
     overflow: hidden;
 }
@@ -102,8 +102,8 @@ body {
 
 .tile:hover {
     transform: scale(1.1) translateY(-5px);
-    background: linear-gradient(135deg, #5a9df7, #2b82f0);
-    box-shadow: 0 8px 25px rgba(66, 133, 244, 0.5);
+    background: linear-gradient(135deg, #7a9a96, #658581);
+    box-shadow: 0 8px 25px rgba(85, 117, 113, 0.5);
 }
 
 .tile.clicked::before {
