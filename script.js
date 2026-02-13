@@ -132,7 +132,7 @@ document.getElementById('yesBtn').addEventListener('click', function() {
     buttonsDiv.classList.add('hidden');
     
     // Show thank you message
-    messageDiv.textContent = '💙 Thanks for choosing me! You made my day! 💙';
+    messageDiv.textContent = '💚 Thanks for choosing me! You made my day! 💚';
     messageDiv.style.fontSize = '2.5rem';
     messageDiv.style.color = '#557571';
     messageDiv.style.animation = 'none';
