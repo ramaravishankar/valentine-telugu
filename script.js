@@ -26,7 +26,7 @@ const teluguLoveSongs = [
 
 let currentSongIndex = 0;
 let currentlyPlayingTile = null;
-let currentAudio = null;
+let currentAudio = new Audio(); // Reuse single Audio object
 
 // Generate heart tiles
 function generateHeart() {
@@ -81,27 +81,24 @@ function playSong(index) {
     const messageDiv = document.getElementById('message');
     
     // Stop currently playing audio
-    if (currentAudio) {
-        currentAudio.pause();
-        currentAudio.currentTime = 0;
-    }
+    currentAudio.pause();
+    currentAudio.currentTime = 0;
     
-    // Create and play new audio
-    currentAudio = new Audio(song.url);
+    // Set new audio source
+    currentAudio.src = song.url;
     
     // Handle audio load error (for when files don't exist yet)
-    currentAudio.addEventListener('error', function() {
+    currentAudio.onerror = function() {
         console.log(`Audio file not found: ${song.url}`);
         messageDiv.textContent = `♫ ${song.name} ♫`;
-    });
+    };
     
-    // Handle successful audio load
-    currentAudio.addEventListener('loadeddata', function() {
+    // Handle successful audio load and play
+    currentAudio.onloadeddata = function() {
         currentAudio.play().catch(err => {
             console.log('Playback error:', err);
-            messageDiv.textContent = `♫ ${song.name} ♫`;
         });
-    });
+    };
     
     // Show which song is playing
     messageDiv.textContent = `♫ Now playing: ${song.name} ♫`;
@@ -129,9 +126,7 @@ document.getElementById('yesBtn').addEventListener('click', function() {
     const buttonsDiv = document.getElementById('buttons');
     
     // Stop any playing audio
-    if (currentAudio) {
-        currentAudio.pause();
-    }
+    currentAudio.pause();
     
     // Hide buttons
     buttonsDiv.classList.add('hidden');

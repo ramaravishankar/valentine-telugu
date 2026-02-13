@@ -4,6 +4,12 @@
     box-sizing: border-box;
 }
 
+:root {
+    --tile-size-mobile: 35px;
+    --tile-size-default: 60px;
+    --tile-size-large: 75px;
+}
+
 body {
     font-family: 'Poppins', sans-serif;
     background: #ffffff;
@@ -70,8 +76,8 @@ body {
 }
 
 .tile {
-    width: 60px;
-    height: 60px;
+    width: var(--tile-size-default);
+    height: var(--tile-size-default);
     background: linear-gradient(135deg, #4285f4, #1a73e8);
     border-radius: 12px;
     cursor: pointer;
@@ -223,8 +229,8 @@ body {
     }
     
     .tile {
-        width: 35px;
-        height: 35px;
+        width: var(--tile-size-mobile);
+        height: var(--tile-size-mobile);
     }
     
     .heart {
@@ -243,8 +249,8 @@ body {
 
 @media (min-width: 1400px) {
     .tile {
-        width: 75px;
-        height: 75px;
+        width: var(--tile-size-large);
+        height: var(--tile-size-large);
     }
     
     .heart {
