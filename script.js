@@ -1,34 +1,32 @@
-// Heart shape pattern (1 = tile, 0 = empty)
+// Heart shape pattern (1 = tile, 0 = empty) - Reduced to 46 tiles
 const heartPattern = [
-    [0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0],
-    [0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0],
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-    [0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
-    [0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
-    [0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0]
+    [0, 1, 1, 0, 0, 0, 1, 1, 0],
+    [1, 1, 1, 1, 0, 1, 1, 1, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [0, 1, 1, 1, 1, 1, 1, 1, 0],
+    [0, 0, 1, 1, 1, 1, 1, 0, 0],
+    [0, 0, 0, 1, 1, 1, 0, 0, 0],
+    [0, 0, 0, 0, 1, 0, 0, 0, 0]
 ];
 
-// Telugu love songs (dummy references)
+// Telugu love songs with audio file paths
 const teluguLoveSongs = [
-    { name: "Ninne Pelladatha", url: "" },
-    { name: "Prema Desam", url: "" },
-    { name: "Geetanjali", url: "" },
-    { name: "Arya 2 - Ringa Ringa", url: "" },
-    { name: "Ye Maaya Chesave", url: "" },
-    { name: "Ala Modalaindi", url: "" },
-    { name: "Bommarillu - Appudo Ippudo", url: "" },
-    { name: "Raja Rani - Nee Jathaga", url: "" },
-    { name: "Tholi Prema", url: "" },
-    { name: "Fidaa - Vachinde", url: "" }
+    { name: "Ninne Pelladatha", url: "songs/song1.mp3" },
+    { name: "Prema Desam", url: "songs/song2.mp3" },
+    { name: "Geetanjali", url: "songs/song3.mp3" },
+    { name: "Arya 2 - Ringa Ringa", url: "songs/song4.mp3" },
+    { name: "Ye Maaya Chesave", url: "songs/song5.mp3" },
+    { name: "Ala Modalaindi", url: "songs/song6.mp3" },
+    { name: "Bommarillu - Appudo Ippudo", url: "songs/song7.mp3" },
+    { name: "Raja Rani - Nee Jathaga", url: "songs/song8.mp3" },
+    { name: "Tholi Prema", url: "songs/song9.mp3" },
+    { name: "Fidaa - Vachinde", url: "songs/song10.mp3" }
 ];
 
 let currentSongIndex = 0;
 let currentlyPlayingTile = null;
+let currentAudio = null;
 
 // Generate heart tiles
 function generateHeart() {
@@ -70,26 +68,48 @@ function handleTileClick(event) {
     tile.classList.add('playing');
     currentlyPlayingTile = tile;
     
-    // Play song (simulated)
+    // Play song
     playSong(currentSongIndex);
     
     // Move to next song
     currentSongIndex = (currentSongIndex + 1) % teluguLoveSongs.length;
 }
 
-// Simulate playing song
+// Play actual audio file
 function playSong(index) {
     const song = teluguLoveSongs[index];
     const messageDiv = document.getElementById('message');
     
-    // Show which song is "playing"
+    // Stop currently playing audio
+    if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+    }
+    
+    // Create and play new audio
+    currentAudio = new Audio(song.url);
+    
+    // Handle audio load error (for when files don't exist yet)
+    currentAudio.addEventListener('error', function() {
+        console.log(`Audio file not found: ${song.url}`);
+        messageDiv.textContent = `♫ ${song.name} ♫`;
+    });
+    
+    // Handle successful audio load
+    currentAudio.addEventListener('loadeddata', function() {
+        currentAudio.play().catch(err => {
+            console.log('Playback error:', err);
+            messageDiv.textContent = `♫ ${song.name} ♫`;
+        });
+    });
+    
+    // Show which song is playing
     messageDiv.textContent = `♫ Now playing: ${song.name} ♫`;
     messageDiv.style.animation = 'none';
     setTimeout(() => {
         messageDiv.style.animation = 'fadeIn 0.5s ease';
     }, 10);
     
-    // In a real implementation, you would play actual audio here
     console.log(`Playing: ${song.name}`);
 }
 
@@ -108,12 +128,18 @@ document.getElementById('yesBtn').addEventListener('click', function() {
     const messageDiv = document.getElementById('message');
     const buttonsDiv = document.getElementById('buttons');
     
+    // Stop any playing audio
+    if (currentAudio) {
+        currentAudio.pause();
+    }
+    
     // Hide buttons
     buttonsDiv.classList.add('hidden');
     
     // Show thank you message
     messageDiv.textContent = '💙 Thanks for choosing me! You made my day! 💙';
     messageDiv.style.fontSize = '2.5rem';
+    messageDiv.style.color = '#1a73e8';
     messageDiv.style.animation = 'none';
     setTimeout(() => {
         messageDiv.style.animation = 'fadeIn 0.5s ease';
@@ -123,7 +149,7 @@ document.getElementById('yesBtn').addEventListener('click', function() {
     const tiles = document.querySelectorAll('.tile:not(.invisible)');
     tiles.forEach((tile, index) => {
         setTimeout(() => {
-            tile.style.background = 'linear-gradient(135deg, #56ab2f, #a8e063)';
+            tile.style.background = 'linear-gradient(135deg, #34a853, #0f9d58)';
             tile.style.animation = 'pulse 1s ease-in-out';
         }, index * 50);
     });
