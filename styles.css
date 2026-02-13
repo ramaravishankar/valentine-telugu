@@ -183,6 +183,21 @@ body {
     pointer-events: none;
 }
 
+/* Add this near the .message styles (anywhere is fine) */
+.hint {
+    color: #557571;
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin: 0.5rem 0 1.25rem;
+    opacity: 0.9;
+}
+@media (max-width: 768px) {
+    .hint {
+        font-size: 1rem;
+        margin: 0.25rem 0 1rem;
+    }
+}
+
 .message {
     color: #333;
     font-size: 2rem;
