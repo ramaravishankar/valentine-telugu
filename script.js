@@ -22,7 +22,7 @@ const teluguLoveSongs = [
     { name: "Ye Maaya Chesave", url: "" },
     { name: "Ala Modalaindi", url: "" },
     { name: "Bommarillu - Appudo Ippudo", url: "" },
-    { name: "96 - Kaathalae Kaathalae", url: "" },
+    { name: "Raja Rani - Nee Jathaga", url: "" },
     { name: "Tholi Prema", url: "" },
     { name: "Fidaa - Vachinde", url: "" }
 ];
