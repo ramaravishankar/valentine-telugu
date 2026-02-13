@@ -64,7 +64,6 @@ const teluguLoveSongs = [
 
 let currentlyPlayingTile = null;
 let currentAudio = new Audio(); // Reuse single Audio object
-let tileCount = 0; // Track tile index for song mapping
 
 // Generate heart tiles
 function generateHeart() {
@@ -84,7 +83,6 @@ function generateHeart() {
                 
                 // Add image element for future image support
                 const img = document.createElement('img');
-                img.dataset.songIndex = songIndex;
                 // Image source will be like: images/song1.jpg, images/song2.jpg, etc.
                 img.src = `images/song${songIndex + 1}.jpg`;
                 img.alt = `Song ${songIndex + 1}`;
@@ -102,8 +100,6 @@ function generateHeart() {
             heartDiv.appendChild(tile);
         });
     });
-    
-    tileCount = songIndex; // Store total tile count
 }
 
 // Handle tile click
@@ -145,9 +141,9 @@ function handleTileClick(event) {
     }
     
     // Add clicked animation
-    tile.classList.add('clicked-animation');
+    tile.classList.add('tile-click');
     setTimeout(() => {
-        tile.classList.remove('clicked-animation');
+        tile.classList.remove('tile-click');
     }, 600);
     
     // Mark tile as opened/clicked (persistent state)

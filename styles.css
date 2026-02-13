@@ -127,7 +127,7 @@ body {
     height: 200%;
 }
 
-.tile.clicked-animation {
+.tile.tile-click {
     animation: tileClick 0.6s ease;
 }
 
