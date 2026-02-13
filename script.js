@@ -62,7 +62,6 @@ const teluguLoveSongs = [
     { name: "Maate_Mantramu", url: "songs/song48.mp3" }
 ];
 
-let currentSongIndex = 0;
 let currentlyPlayingTile = null;
 let currentAudio = new Audio(); // Reuse single Audio object
 
@@ -70,6 +69,7 @@ let currentAudio = new Audio(); // Reuse single Audio object
 function generateHeart() {
     const heartDiv = document.getElementById('heart');
     heartDiv.innerHTML = '';
+    let songIndex = 0; // Index for assigning songs to tiles
     
     heartPattern.forEach((row, rowIndex) => {
         row.forEach((cell, colIndex) => {
@@ -78,6 +78,21 @@ function generateHeart() {
                 tile.className = 'tile';
                 tile.dataset.row = rowIndex;
                 tile.dataset.col = colIndex;
+                // Map each tile to a unique song
+                tile.dataset.songIndex = songIndex;
+                
+                // Add image element for future image support
+                const img = document.createElement('img');
+                // Image source will be like: images/song1.jpg, images/song2.jpg, etc.
+                img.src = `images/song${songIndex + 1}.jpg`;
+                img.alt = `Song ${songIndex + 1}`;
+                img.onerror = function() {
+                    // Hide image if it doesn't exist
+                    this.style.display = 'none';
+                };
+                tile.appendChild(img);
+                
+                songIndex++;
                 tile.addEventListener('click', handleTileClick);
             } else {
                 tile.className = 'tile invisible';
@@ -89,28 +104,57 @@ function generateHeart() {
 
 // Handle tile click
 function handleTileClick(event) {
-    const tile = event.target;
+    // Get the tile element (in case an image was clicked)
+    const tile = event.currentTarget;
+    const songIndex = parseInt(tile.dataset.songIndex);
     
-    // Remove playing class from previously playing tile
+    // Check if clicking the currently playing tile (pause functionality)
+    if (currentlyPlayingTile === tile && !currentAudio.paused) {
+        // Pause the song
+        currentAudio.pause();
+        tile.classList.remove('playing');
+        tile.classList.add('paused');
+        
+        const messageDiv = document.getElementById('message');
+        const song = teluguLoveSongs[songIndex];
+        messageDiv.textContent = `⏸ Paused: ${song.name} ⏸`;
+        return;
+    }
+    
+    // If clicking a paused tile, resume playing
+    if (currentlyPlayingTile === tile && currentAudio.paused) {
+        currentAudio.play().catch(err => {
+            console.log('Playback error:', err);
+        });
+        tile.classList.remove('paused');
+        tile.classList.add('playing');
+        
+        const messageDiv = document.getElementById('message');
+        const song = teluguLoveSongs[songIndex];
+        messageDiv.textContent = `♫ Now playing: ${song.name} ♫`;
+        return;
+    }
+    
+    // Remove playing class from previously playing tile (keep clicked state)
     if (currentlyPlayingTile && currentlyPlayingTile !== tile) {
-        currentlyPlayingTile.classList.remove('playing');
+        currentlyPlayingTile.classList.remove('playing', 'paused');
     }
     
     // Add clicked animation
-    tile.classList.add('clicked');
+    tile.classList.add('tile-click');
     setTimeout(() => {
-        tile.classList.remove('clicked');
+        tile.classList.remove('tile-click');
     }, 600);
+    
+    // Mark tile as opened/clicked (persistent state)
+    tile.classList.add('opened');
     
     // Add playing state
     tile.classList.add('playing');
     currentlyPlayingTile = tile;
     
-    // Play song
-    playSong(currentSongIndex);
-    
-    // Move to next song
-    currentSongIndex = (currentSongIndex + 1) % teluguLoveSongs.length;
+    // Play the song associated with this tile
+    playSong(songIndex);
 }
 
 // Play actual audio file
