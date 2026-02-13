@@ -96,11 +96,15 @@ body {
     object-fit: cover;
     border-radius: 12px;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .tile.opened img {
     opacity: 1;
+}
+
+.tile.opened:hover img {
+    transform: scale(1.2);
 }
 
 .tile::before {
